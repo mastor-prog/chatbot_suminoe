@@ -4,246 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Formont Suminoe 101 - Guest Support</title>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-      :root {
-        --primary-color: #2c3e50;
-        --primary-light: #34495e;
-        --bg-color: #eff3f6;
-        --chat-bg: #ffffff;
-        --bot-msg-bg: #f1f3f5;
-        --bot-msg-text: #333333;
-        --user-msg-bg: var(--primary-color);
-        --user-msg-text: #ffffff;
-        --font-family: 'Inter', 'Noto Sans JP', sans-serif;
-      }
-
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-
-      body, html {
-        height: 100%;
-        font-family: var(--font-family);
-        background-color: var(--bg-color);
-        overscroll-behavior-y: none; 
-      }
-
-      .chat-container {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        height: 100dvh; 
-        max-width: 500px;
-        margin: 0 auto;
-        background-color: var(--chat-bg);
-        box-shadow: 0 0 20px rgba(0,0,0,0.08);
-      }
-
-      .chat-header {
-        background-color: var(--primary-color);
-        color: white;
-        padding: 18px 20px;
-        display: flex;
-        align-items: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        z-index: 10;
-      }
-
-      .header-info h1 {
-        font-size: 1.15rem;
-        font-weight: 600;
-        margin: 0;
-        letter-spacing: 0.5px;
-      }
-
-      .header-info p {
-        font-size: 0.8rem;
-        color: #cbd5e1;
-        margin-top: 4px;
-        font-weight: 400;
-      }
-
-      .chat-box {
-        flex: 1;
-        overflow-y: auto;
-        padding: 24px 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        background-color: var(--chat-bg);
-        scroll-behavior: smooth;
-      }
-
-      .message {
-        display: flex;
-        max-width: 88%;
-        gap: 12px;
-        opacity: 0;
-        transform: translateY(15px);
-        animation: fadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-      }
-
-      @keyframes fadeIn {
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      .user-message {
-        align-self: flex-end;
-        flex-direction: row-reverse;
-      }
-
-      .bot-message {
-        align-self: flex-start;
-      }
-
-      .avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background-color: var(--primary-color);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.1rem;
-        flex-shrink: 0;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      }
-
-      .user-message .avatar { display: none; }
-
-      .content {
-        padding: 14px 18px;
-        border-radius: 20px;
-        font-size: 0.95rem;
-        line-height: 1.6;
-        word-break: break-word;
-        letter-spacing: 0.3px;
-      }
-
-      .bot-message .content {
-        background-color: var(--bot-msg-bg);
-        color: var(--bot-msg-text);
-        border-top-left-radius: 4px;
-      }
-
-      .user-message .content {
-        background-color: var(--user-msg-bg);
-        color: var(--user-msg-text);
-        border-top-right-radius: 4px;
-        box-shadow: 0 2px 5px rgba(44, 62, 80, 0.15);
-      }
-
-      .suggest-chips {
-        padding: 12px 20px 8px 20px;
-        display: flex;
-        flex-wrap: wrap; /* 折り返しを許可 */
-        gap: 8px; /* 間隔を少し詰める */
-        background-color: var(--chat-bg);
-        border-top: 1px solid #f0f0f0;
-      }
-
-      .suggest-chips button {
-        white-space: nowrap;
-        padding: 10px 18px;
-        border-radius: 24px;
-        border: 1px solid #e0e0e0;
-        background-color: #ffffff;
-        color: #4a5568;
-        font-size: 0.85rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-family: inherit;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      }
-
-      .suggest-chips button:active,
-      @media (hover: hover) { .suggest-chips button:hover {
-        background-color: var(--primary-light);
-        color: white;
-        border-color: var(--primary-light);
-        transform: translateY(-1px);
-      }}
-
-      .input-area {
-        padding: 10px 20px 24px 20px;
-        background-color: var(--chat-bg);
-        display: flex;
-        gap: 12px;
-      }
-
-      #user-input {
-        flex: 1;
-        padding: 14px 20px;
-        border-radius: 28px;
-        border: 1px solid #e0e6ed;
-        background-color: #f8fafc;
-        font-size: 1rem;
-        font-family: inherit;
-        outline: none;
-        transition: border-color 0.2s, background-color 0.2s;
-      }
-
-      #user-input:focus {
-        border-color: var(--primary-color);
-        background-color: #ffffff;
-      }
-
-      #send-button {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 1.1rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.2s, transform 0.1s;
-        box-shadow: 0 2px 6px rgba(44, 62, 80, 0.3);
-      }
-
-      #send-button:active { transform: scale(0.95); }
-
-      #send-button:disabled {
-        background-color: #cbd5e1;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
-      
-      .typing-indicator {
-        display: flex;
-        gap: 5px;
-        align-items: center;
-        justify-content: center;
-        height: 24px;
-      }
-
-      .dot {
-        width: 6px;
-        height: 6px;
-        background-color: #888;
-        border-radius: 50%;
-        animation: typing 1.4s infinite ease-in-out both;
-      }
-
-      .dot:nth-child(1) { animation-delay: -0.32s; }
-      .dot:nth-child(2) { animation-delay: -0.16s; }
-
-      @keyframes typing {
-        0%, 80%, 100% { transform: scale(0); }
-        40% { transform: scale(1); }
-      }
+      :root{--primary:#2c3e50;--primary-light:#34495e;--bg:#eff3f6;--chat-bg:#fff;--bot-bg:#f1f3f5;--bot-text:#333;--user-bg:var(--primary);--user-text:#fff;--font:'Inter','Noto Sans JP',sans-serif}
+      *{box-sizing:border-box;margin:0;padding:0}
+      body,html{height:100%;font-family:var(--font);background:var(--bg);overscroll-behavior-y:none}
+      .chat-container{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:500px;margin:0 auto;background:var(--chat-bg);box-shadow:0 0 20px rgba(0,0,0,.08)}
+      .chat-header{background:var(--primary);color:#fff;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.1);z-index:10}
+      .header-info h1{font-size:1.1rem;font-weight:600;letter-spacing:.5px}
+      .header-info p{font-size:.78rem;color:#cbd5e1;margin-top:3px}
+      .lang-btn{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:6px 10px;font-size:.85rem;cursor:pointer;transition:all .2s}
+      .lang-btn:hover{background:rgba(255,255,255,.15)}
+      .lang-menu{display:none;position:absolute;right:12px;top:58px;background:#fff;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);overflow:hidden;z-index:100}
+      .lang-menu.show{display:block}
+      .lang-menu button{display:block;width:100%;padding:10px 20px;border:none;background:none;text-align:left;font-size:.9rem;cursor:pointer;font-family:var(--font)}
+      .lang-menu button:hover{background:#f0f4f8}
+      .lang-menu button.active{background:#edf2f7;font-weight:600}
+      .chat-box{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth}
+      .message{display:flex;max-width:88%;gap:10px;opacity:0;transform:translateY(12px);animation:fadeIn .4s cubic-bezier(.2,.8,.2,1) forwards}
+      @keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+      .user-message{align-self:flex-end;flex-direction:row-reverse}
+      .bot-message{align-self:flex-start}
+      .avatar{width:36px;height:36px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+      .user-message .avatar{display:none}
+      .content{padding:12px 16px;border-radius:18px;font-size:.93rem;line-height:1.6;word-break:break-word}
+      .bot-message .content{background:var(--bot-bg);color:var(--bot-text);border-top-left-radius:4px}
+      .user-message .content{background:var(--user-bg);color:var(--user-text);border-top-right-radius:4px;box-shadow:0 2px 5px rgba(44,62,80,.15)}
+      .feedback-row{display:flex;gap:6px;margin-top:6px;padding-left:46px}
+      .feedback-row button{background:none;border:1px solid #e0e0e0;border-radius:16px;padding:4px 10px;font-size:.78rem;cursor:pointer;transition:all .2s;color:#888}
+      .feedback-row button:hover{background:#f0f4f8}
+      .feedback-row button.voted{border-color:var(--primary);color:var(--primary);font-weight:600}
+      .feedback-row .thanks{font-size:.78rem;color:#888;padding:4px 0}
+      .suggest-chips{padding:10px 20px 6px;display:flex;flex-wrap:wrap;gap:8px;background:var(--chat-bg);border-top:1px solid #f0f0f0}
+      .suggest-chips button{white-space:nowrap;padding:9px 16px;border-radius:22px;border:1px solid #e0e0e0;background:#fff;color:#4a5568;font-size:.83rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+      .suggest-chips button:active,.suggest-chips button:hover{background:var(--primary-light);color:#fff;border-color:var(--primary-light);transform:translateY(-1px)}
+      .input-area{padding:8px 16px 20px;background:var(--chat-bg);display:flex;gap:10px;align-items:center}
+      #user-input{flex:1;padding:12px 18px;border-radius:26px;border:1px solid #e0e6ed;background:#f8fafc;font-size:1rem;font-family:inherit;outline:none;transition:border-color .2s,background .2s}
+      #user-input:focus{border-color:var(--primary);background:#fff}
+      .input-btn{width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+      #voice-btn{background:#f0f4f8;color:#64748b;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+      #voice-btn:hover{background:#e2e8f0}
+      #voice-btn.recording{background:#ef4444;color:#fff;animation:pulse 1s infinite}
+      @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
+      #send-button{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(44,62,80,.3)}
+      #send-button:active{transform:scale(.95)}
+      #send-button:disabled{background:#cbd5e1;cursor:not-allowed;box-shadow:none}
+      .typing-indicator{display:flex;gap:5px;align-items:center;justify-content:center;height:24px}
+      .dot{width:6px;height:6px;background:#888;border-radius:50%;animation:typing 1.4s infinite ease-in-out both}
+      .dot:nth-child(1){animation-delay:-.32s}.dot:nth-child(2){animation-delay:-.16s}
+      @keyframes typing{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+      .retry-btn{background:var(--primary-light);color:#fff;border:none;border-radius:18px;padding:8px 16px;margin-top:8px;cursor:pointer;font-size:.85rem;font-family:inherit}
+      .retry-btn:hover{opacity:.85}
     </style>
   </head>
   <body>
@@ -251,192 +65,351 @@
       <header class="chat-header">
         <div class="header-info">
           <h1>Formont Suminoe 101</h1>
-          <p>🤖 AI Guest Support Assistant</p>
+          <p>🤖 AI Guest Support</p>
+        </div>
+        <button class="lang-btn" id="lang-toggle" onclick="toggleLangMenu()">🌐</button>
+        <div class="lang-menu" id="lang-menu">
+          <button onclick="setLang('ja')">🇯🇵 日本語</button>
+          <button onclick="setLang('en')">🇺🇸 English</button>
+          <button onclick="setLang('zh')">🇨🇳 中文</button>
+          <button onclick="setLang('ko')">🇰🇷 한국어</button>
         </div>
       </header>
-      
-      <div id="chat-box" class="chat-box">
-        <!-- JSで言語に応じたウェルカムメッセージが挿入されます -->
-      </div>
-
-      <div class="suggest-chips">
-        <button onclick="sendSuggest('Wi-Fiのパスワードは？')">📶 Wi-Fi</button>
-        <button onclick="sendSuggest('チェックアウトの時間は？')">🕒 Checkout</button>
-        <button onclick="sendSuggest('ゴミの捨て方は？')">🗑️ Garbage</button>
-        <button onclick="sendSuggest('エアコンの使い方は？')">❄️ AC</button>
-        <button onclick="showHostContact()">📩 ホストに連絡</button>
-      </div>
-
+      <div id="chat-box" class="chat-box"></div>
+      <div class="suggest-chips" id="suggest-chips"></div>
       <div class="input-area">
-        <input type="text" id="user-input" placeholder="メッセージを入力 / Type here..." onkeypress="handleKeyPress(event)">
-        <button id="send-button" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        <input type="text" id="user-input" onkeypress="handleKeyPress(event)">
+        <button class="input-btn" id="voice-btn" onclick="toggleVoice()" style="display:none"><i class="fa-solid fa-microphone"></i></button>
+        <button class="input-btn" id="send-button" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
       </div>
     </div>
-    
     <script>
+      // ============================================================
+      // ③ 多言語リソース (i18n)
+      // ============================================================
+      const I18N = {
+        ja: {
+          welcome: '<div style="margin-bottom:8px">🇯🇵 <strong>ご宿泊ありがとうございます！</strong><br>AIアシスタントがお答えします。</div><div style="border-top:1px solid #ddd;padding-top:8px;font-size:.85rem;color:#555">※ 解決しない場合は「<strong>📩 ホストに連絡</strong>」をご利用ください。</div>',
+          placeholder: 'メッセージを入力...',
+          chips: ['📶 Wi-Fi', '🕒 チェックアウト', '🗑️ ゴミの捨て方', '❄️ エアコン', '📩 ホストに連絡'],
+          chipQueries: ['Wi-Fiのパスワードは？','チェックアウトの時間は？','ゴミの捨て方は？','エアコンの使い方は？','__contact__'],
+          error: '通信エラーが発生しました。ネットワーク接続をご確認ください。',
+          retry: '再試行',
+          timeout: '応答に時間がかかっています。しばらくお待ちください...',
+          contact: 'ホストへは以下の方法でご連絡いただけます：\n\n📱 **Airbnb アプリのメッセージ機能**\n→ ご予約ページからメッセージを送信してください。\n\n🚨 **設備の緊急トラブル（水漏れ等）**\n→ 電話: 050-3310-1240\n→ キーコード: 2632-4965-0\n\n🆘 **緊急時**\n→ 警察: 110 / 救急・火災: 119',
+          contactLabel: '📩 ホストへの連絡方法',
+          feedbackThanks: 'ありがとうございます'
+        },
+        en: {
+          welcome: '<div style="margin-bottom:8px">🇺🇸 <strong>Welcome!</strong><br>I\'m your AI guest assistant.</div><div style="border-top:1px solid #ddd;padding-top:8px;font-size:.85rem;color:#555">※ If the AI cannot help, please use "<strong>📩 Contact Host</strong>".</div>',
+          placeholder: 'Type your message...',
+          chips: ['📶 Wi-Fi', '🕒 Checkout', '🗑️ Garbage', '❄️ AC', '📩 Contact Host'],
+          chipQueries: ['What is the Wi-Fi password?','What time is checkout?','How do I dispose of garbage?','How do I use the air conditioner?','__contact__'],
+          error: 'Connection error. Please check your network.',
+          retry: 'Retry',
+          timeout: 'Taking longer than expected. Please wait...',
+          contact: 'You can contact the host via:\n\n📱 **Airbnb App Messaging**\n→ Send a message from your reservation page.\n\n🚨 **Facility Emergency (water leak, etc.)**\n→ Phone: 050-3310-1240\n→ Key code: 2632-4965-0\n\n🆘 **Emergency**\n→ Police: 110 / Fire & Ambulance: 119',
+          contactLabel: '📩 Contact Host',
+          feedbackThanks: 'Thank you'
+        },
+        zh: {
+          welcome: '<div style="margin-bottom:8px">🇨🇳 <strong>欢迎入住！</strong><br>我是您的AI助手。</div><div style="border-top:1px solid #ddd;padding-top:8px;font-size:.85rem;color:#555">※ 如果AI无法解决，请使用「<strong>📩 联系房东</strong>」。</div>',
+          placeholder: '请输入消息...',
+          chips: ['📶 Wi-Fi', '🕒 退房时间', '🗑️ 垃圾分类', '❄️ 空调', '📩 联系房东'],
+          chipQueries: ['Wi-Fi密码是什么？','退房时间是几点？','垃圾怎么扔？','空调怎么用？','__contact__'],
+          error: '连接错误，请检查网络。',
+          retry: '重试',
+          timeout: '响应时间较长，请稍候...',
+          contact: '您可以通过以下方式联系房东：\n\n📱 **Airbnb App消息功能**\n→ 从预订页面发送消息。\n\n🚨 **设施紧急故障（漏水等）**\n→ 电话: 050-3310-1240\n→ 密码: 2632-4965-0\n\n🆘 **紧急情况**\n→ 警察: 110 / 急救・火灾: 119',
+          contactLabel: '📩 联系房东',
+          feedbackThanks: '谢谢'
+        },
+        ko: {
+          welcome: '<div style="margin-bottom:8px">🇰🇷 <strong>환영합니다!</strong><br>AI 어시스턴트입니다.</div><div style="border-top:1px solid #ddd;padding-top:8px;font-size:.85rem;color:#555">※ AI가 해결할 수 없는 경우「<strong>📩 호스트에게 연락</strong>」을 이용해 주세요.</div>',
+          placeholder: '메시지를 입력하세요...',
+          chips: ['📶 Wi-Fi', '🕒 체크아웃', '🗑️ 쓰레기', '❄️ 에어컨', '📩 호스트에게 연락'],
+          chipQueries: ['Wi-Fi 비밀번호는?','체크아웃 시간은?','쓰레기는 어떻게 버리나요?','에어컨은 어떻게 사용하나요?','__contact__'],
+          error: '연결 오류입니다. 네트워크를 확인해 주세요.',
+          retry: '다시 시도',
+          timeout: '응답이 지연되고 있습니다. 잠시만 기다려 주세요...',
+          contact: '호스트에게 다음 방법으로 연락할 수 있습니다:\n\n📱 **Airbnb 앱 메시지 기능**\n→ 예약 페이지에서 메시지를 보내주세요.\n\n🚨 **시설 긴급 상황 (누수 등)**\n→ 전화: 050-3310-1240\n→ 키 코드: 2632-4965-0\n\n🆘 **긴급 상황**\n→ 경찰: 110 / 소방・구급: 119',
+          contactLabel: '📩 호스트에게 연락',
+          feedbackThanks: '감사합니다'
+        }
+      };
+
+      // ============================================================
+      // グローバル状態
+      // ============================================================
       const chatBox = document.getElementById('chat-box');
       const userInput = document.getElementById('user-input');
       const sendButton = document.getElementById('send-button');
+      const suggestArea = document.getElementById('suggest-chips');
+      const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzLNhfNYzjBwTD_3jITGi7S4eYx5wl7ihKnJbxDKqMNkS2xOjbEkDu7tmY3kVjTQml9/exec';
+      const sessionId = crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+      let currentLang = 'en';
+      let lastUserMsg = '';
+      let lastBotMsg = '';
+      let recognition = null;
 
-      // 言語判定と初期メッセージの表示
-      function initWelcomeMessage() {
-        const lang = navigator.language || navigator.userLanguage;
-        let welcomeHtml = '';
-        
-        if (lang.startsWith('ja')) {
-          welcomeHtml = `
-            <div style="margin-bottom: 8px;">🇯🇵 <strong>ご宿泊ありがとうございます！</strong><br>AIアシスタントがお答えします。</div>
-            <div style="border-top: 1px solid #ddd; padding-top: 8px; font-size: 0.85rem; color: #555;">※ 解決しない場合は「<strong>📩 ホストに連絡</strong>」をご利用ください。</div>`;
-        } else if (lang.startsWith('zh')) {
-          welcomeHtml = `
-            <div style="margin-bottom: 8px;">🇨🇳 <strong>欢迎入住！</strong><br>我是您的AI助手。</div>
-            <div style="border-top: 1px solid #ddd; padding-top: 8px; font-size: 0.85rem; color: #555;">※ 如果AI无法解决，请使用「<strong>📩 联系房東</strong>」。</div>`;
-        } else if (lang.startsWith('ko')) {
-          welcomeHtml = `
-            <div style="margin-bottom: 8px;">🇰🇷 <strong>환영합니다!</strong><br>AI 어시스턴트입니다.</div>
-            <div style="border-top: 1px solid #ddd; padding-top: 8px; font-size: 0.85rem; color: #555;">※ AI가 해결できない 경우「<strong>📩 호스트에게 연락</strong>」을 이용해 주세요.</div>`;
-        } else {
-          // デフォルト（英語）
-          welcomeHtml = `
-            <div style="margin-bottom: 8px;">🇺🇸 <strong>Welcome!</strong><br>I'm your AI guest assistant.</div>
-            <div style="border-top: 1px solid #ddd; padding-top: 8px; font-size: 0.85rem; color: #555;">※ If the AI cannot resolve it, please use "<strong>📩 Contact Host</strong>".</div>`;
-        }
+      // ============================================================
+      // 初期化
+      // ============================================================
+      function detectLang() {
+        const saved = localStorage.getItem('fmLang');
+        if (saved && I18N[saved]) return saved;
+        const nav = navigator.language || navigator.userLanguage || 'en';
+        if (nav.startsWith('ja')) return 'ja';
+        if (nav.startsWith('zh')) return 'zh';
+        if (nav.startsWith('ko')) return 'ko';
+        return 'en';
+      }
+      function t() { return I18N[currentLang]; }
 
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message bot-message';
-        msgDiv.innerHTML = `
-          <div class="avatar"><i class="fa-solid fa-concierge-bell"></i></div>
-          <div class="content" style="line-height: 1.8;">${welcomeHtml}</div>
-        `;
-        chatBox.appendChild(msgDiv);
+      function init() {
+        currentLang = detectLang();
+        applyLang();
+        appendBotWelcome();
+        initVoice();
       }
 
-      // ページ読み込み時に実行
-      window.onload = initWelcomeMessage;
-
-      // 【重要】ここにGASのデプロイURLを設定してください
-      const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbzLNhfNYzjBwTD_3jITGi7S4eYx5wl7ihKnJbxDKqMNkS2xOjbEkDu7tmY3kVjTQml9/exec'; 
-
-      function scrollToBottom() {
-        chatBox.scrollTop = chatBox.scrollHeight;
+      function applyLang() {
+        userInput.placeholder = t().placeholder;
+        renderDefaultChips();
+        document.querySelectorAll('#lang-menu button').forEach(b => b.classList.remove('active'));
+        const idx = {ja:0,en:1,zh:2,ko:3}[currentLang];
+        document.querySelectorAll('#lang-menu button')[idx]?.classList.add('active');
       }
 
-      function handleKeyPress(e) {
-        if (e.isComposing || e.keyCode === 229) return;
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          sendMessage();
-        }
+      function renderDefaultChips() {
+        suggestArea.innerHTML = '';
+        t().chips.forEach((label, i) => {
+          const btn = document.createElement('button');
+          btn.textContent = label;
+          btn.onclick = () => {
+            const q = t().chipQueries[i];
+            if (q === '__contact__') { showHostContact(); return; }
+            userInput.value = q;
+            sendMessage();
+          };
+          suggestArea.appendChild(btn);
+        });
       }
 
-      function sendSuggest(text) {
-        userInput.value = text;
-        sendMessage();
+      function renderDynamicChips(suggestions) {
+        if (!suggestions || suggestions.length === 0) { renderDefaultChips(); return; }
+        suggestArea.innerHTML = '';
+        suggestions.forEach(text => {
+          const btn = document.createElement('button');
+          btn.textContent = text;
+          btn.onclick = () => { userInput.value = text; sendMessage(); };
+          suggestArea.appendChild(btn);
+        });
       }
 
-      // ホストへの連絡方法を表示
-      function showHostContact() {
-        appendMessage("📩 ホストへの連絡方法 / Contact Host", true);
-        const contactMsg = 
-          "ホストへは以下の方法でご連絡いただけます：\n\n" +
-          "📱 **Airbnb アプリのメッセージ機能**\n" +
-          "→ ご予約ページからメッセージを送信してください。\n\n" +
-          "🚨 **設備の緊急トラブル（水漏れ等）**\n" +
-          "→ 電話: 050-3310-1240\n" +
-          "→ キーコード: 2632-4965-0\n\n" +
-          "🆘 **緊急時**\n" +
-          "→ 警察: 110 / 救急・火災: 119";
-        appendMessage(contactMsg, false);
+      window.onload = init;
+
+      // ============================================================
+      // ⑧ 言語切替
+      // ============================================================
+      function toggleLangMenu() {
+        document.getElementById('lang-menu').classList.toggle('show');
+      }
+      function setLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('fmLang', lang);
+        applyLang();
+        document.getElementById('lang-menu').classList.remove('show');
+      }
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.lang-btn') && !e.target.closest('.lang-menu'))
+          document.getElementById('lang-menu').classList.remove('show');
+      });
+
+      // ============================================================
+      // メッセージ表示
+      // ============================================================
+      function scrollToBottom() { chatBox.scrollTop = chatBox.scrollHeight; }
+
+      function appendBotWelcome() {
+        const d = document.createElement('div');
+        d.className = 'message bot-message';
+        d.innerHTML = `<div class="avatar"><i class="fa-solid fa-concierge-bell"></i></div><div class="content" style="line-height:1.8">${t().welcome}</div>`;
+        chatBox.appendChild(d);
       }
 
       function appendMessage(text, isUser) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-        
-        let formattedText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        formattedText = formattedText.replace(/\n/g, '<br>');
-        formattedText = formattedText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
+        let fmt = text.replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        fmt = fmt.replace(/\n/g,'<br>');
+        fmt = fmt.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+        const d = document.createElement('div');
+        d.className = `message ${isUser?'user-message':'bot-message'}`;
         if (isUser) {
-          msgDiv.innerHTML = `<div class="content">${formattedText}</div>`;
+          d.innerHTML = `<div class="content">${fmt}</div>`;
         } else {
-          msgDiv.innerHTML = `
-            <div class="avatar"><i class="fa-solid fa-concierge-bell"></i></div>
-            <div class="content">${formattedText}</div>
-          `;
+          d.innerHTML = `<div class="avatar"><i class="fa-solid fa-concierge-bell"></i></div><div class="content">${fmt}</div>`;
         }
-        
-        chatBox.appendChild(msgDiv);
+        chatBox.appendChild(d);
+        setTimeout(scrollToBottom, 10);
+        return d;
+      }
+
+      // ⑥ フィードバックボタン
+      function appendFeedback(question, answer) {
+        const row = document.createElement('div');
+        row.className = 'feedback-row';
+        row.innerHTML = `<button onclick="sendFeedback(this,'good')">👍</button><button onclick="sendFeedback(this,'bad')">👎</button>`;
+        row.dataset.question = question;
+        row.dataset.answer = answer;
+        chatBox.appendChild(row);
         setTimeout(scrollToBottom, 10);
       }
 
-      function appendTypingIndicator() {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'message bot-message typing-msg';
-        msgDiv.id = 'typing-indicator-msg';
-        msgDiv.innerHTML = `
-          <div class="avatar"><i class="fa-solid fa-concierge-bell"></i></div>
-          <div class="content" style="padding: 14px 18px;">
-            <div class="typing-indicator"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-          </div>
-        `;
-        chatBox.appendChild(msgDiv);
-        setTimeout(scrollToBottom, 10);
+      function sendFeedback(btn, rating) {
+        const row = btn.parentElement;
+        const q = row.dataset.question;
+        const a = row.dataset.answer;
+        row.innerHTML = `<span class="thanks">${t().feedbackThanks} ✓</span>`;
+        if (GAS_WEBAPP_URL) {
+          fetch(GAS_WEBAPP_URL, {
+            method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+            body: JSON.stringify({type:'feedback',question:q,answer:a,rating:rating}),
+            redirect:'follow'
+          }).catch(()=>{});
+        }
       }
 
-      function removeTypingIndicator() {
-        const indicator = document.getElementById('typing-indicator-msg');
-        if (indicator) indicator.remove();
+      // タイピングインジケーター
+      function appendTyping() {
+        const d = document.createElement('div');
+        d.className = 'message bot-message typing-msg';
+        d.id = 'typing-indicator-msg';
+        d.innerHTML = `<div class="avatar"><i class="fa-solid fa-concierge-bell"></i></div><div class="content" style="padding:14px 18px"><div class="typing-indicator"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+        chatBox.appendChild(d);
+        setTimeout(scrollToBottom, 10);
+      }
+      function removeTyping() { document.getElementById('typing-indicator-msg')?.remove(); }
+
+      // ============================================================
+      // ホスト連絡
+      // ============================================================
+      function showHostContact() {
+        appendMessage(t().contactLabel, true);
+        appendMessage(t().contact, false);
+      }
+
+      // ============================================================
+      // 入力・送信
+      // ============================================================
+      function handleKeyPress(e) {
+        if (e.isComposing || e.keyCode === 229) return;
+        if (e.key === 'Enter') { e.preventDefault(); sendMessage(); }
       }
 
       function sendMessage() {
         const text = userInput.value.trim();
         if (!text) return;
-
         userInput.value = '';
         userInput.blur();
         userInput.disabled = true;
         sendButton.disabled = true;
-
+        lastUserMsg = text;
         appendMessage(text, true);
-        appendTypingIndicator();
+        appendTyping();
 
-        if (GAS_WEBAPP_URL) {
-          // GAS は CORS の preflight (OPTIONS) を処理できないため、
-          // Content-Type を text/plain にして "simple request" として送信する
-          fetch(GAS_WEBAPP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ message: text }),
-            redirect: 'follow'
-          })
-          .then(res => res.json())
-          .then(data => {
-            removeTypingIndicator();
-            if (data.response) {
-              appendMessage(data.response, false);
-            } else if (data.error) {
-              appendMessage("エラーが発生しました: " + data.error, false);
-            } else {
-              appendMessage("回答を取得できませんでした。しばらくしてからお試しください。", false);
-            }
-            userInput.disabled = false;
-            sendButton.disabled = false;
-          })
-          .catch(err => {
-            console.error("Fetch Error:", err);
-            removeTypingIndicator();
-            appendMessage("通信エラーが発生しました。ネットワーク接続をご確認ください。\n解決しない場合は「📩 ホストに連絡」をご利用ください。", false);
-            userInput.disabled = false;
-            sendButton.disabled = false;
-          });
-        } else {
+        if (!GAS_WEBAPP_URL) {
           setTimeout(() => {
-            removeTypingIndicator();
-            appendMessage("GAS_WEBAPP_URL が未設定です。GASでデプロイしたURLをソースコードに設定してください。", false);
-            userInput.disabled = false;
-            sendButton.disabled = false;
+            removeTyping();
+            appendMessage('GAS_WEBAPP_URL が未設定です。', false);
+            userInput.disabled = false; sendButton.disabled = false;
           }, 1000);
+          return;
+        }
+
+        // ⑦ タイムアウト表示
+        const timeoutId = setTimeout(() => {
+          const tip = document.getElementById('timeout-tip');
+          if (!tip) {
+            const d = document.createElement('div');
+            d.id = 'timeout-tip';
+            d.className = 'message bot-message';
+            d.style.opacity = '1'; d.style.transform = 'none';
+            d.innerHTML = `<div class="avatar"><i class="fa-solid fa-concierge-bell"></i></div><div class="content" style="font-size:.85rem;color:#888">${t().timeout}</div>`;
+            chatBox.appendChild(d);
+            scrollToBottom();
+          }
+        }, 12000);
+
+        fetch(GAS_WEBAPP_URL, {
+          method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body: JSON.stringify({ message: text, sessionId: sessionId }),
+          redirect:'follow'
+        })
+        .then(r => r.json())
+        .then(data => {
+          clearTimeout(timeoutId);
+          document.getElementById('timeout-tip')?.remove();
+          removeTyping();
+          if (data.response) {
+            lastBotMsg = data.response;
+            appendMessage(data.response, false);
+            appendFeedback(text, data.response);
+            // ② 動的サジェスト
+            if (data.suggestions && data.suggestions.length > 0) {
+              renderDynamicChips(data.suggestions);
+            } else {
+              renderDefaultChips();
+            }
+          } else if (data.error) {
+            appendMessage("Error: " + data.error, false);
+          } else {
+            appendMessage(t().error, false);
+          }
+          userInput.disabled = false; sendButton.disabled = false;
+        })
+        .catch(err => {
+          clearTimeout(timeoutId);
+          document.getElementById('timeout-tip')?.remove();
+          console.error("Fetch Error:", err);
+          removeTyping();
+          // ⑦ リトライボタン付きエラー
+          const d = appendMessage(t().error, false);
+          const retryBtn = document.createElement('button');
+          retryBtn.className = 'retry-btn';
+          retryBtn.textContent = t().retry;
+          retryBtn.onclick = () => { userInput.value = lastUserMsg; d.remove(); retryBtn.remove(); sendMessage(); };
+          d.querySelector('.content').appendChild(retryBtn);
+          userInput.disabled = false; sendButton.disabled = false;
+        });
+      }
+
+      // ============================================================
+      // ⑤ 音声入力 (Web Speech API)
+      // ============================================================
+      function initVoice() {
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) return;
+        document.getElementById('voice-btn').style.display = 'flex';
+        recognition = new SR();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.onresult = e => {
+          const transcript = e.results[0][0].transcript;
+          userInput.value = transcript;
+          document.getElementById('voice-btn').classList.remove('recording');
+        };
+        recognition.onerror = () => { document.getElementById('voice-btn').classList.remove('recording'); };
+        recognition.onend = () => { document.getElementById('voice-btn').classList.remove('recording'); };
+      }
+
+      function toggleVoice() {
+        const btn = document.getElementById('voice-btn');
+        if (btn.classList.contains('recording')) {
+          recognition.stop();
+          btn.classList.remove('recording');
+        } else {
+          recognition.start();
+          btn.classList.add('recording');
         }
       }
     </script>
